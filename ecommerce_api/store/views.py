@@ -3,6 +3,7 @@ from .models import Product, Order
 from .serializers import ProductSerializer, OrderSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework import generics
+from rest_framework import filters
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
@@ -12,6 +13,8 @@ class ProductListCreateView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'category']
 
 class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
